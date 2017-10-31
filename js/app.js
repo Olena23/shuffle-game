@@ -1,67 +1,130 @@
 window.onload = function () {
-  var lis = document.getElementsByClassName('card');
+  var openedList = [];
+  var guessed = 0;
+  var timer = 0;
+  var movesNum = document.getElementsByClassName('moves')[0];
+  var restart = document.getElementsByClassName('restart')[0];
+  var displayedTime = document.getElementById('displayedTime');
+  var popUp = document.getElementsByClassName('b-popup')[0];
+  var popUpmoves = document.getElementById('popUpmoves');
+  var gameSeconds = document.getElementById('gameSeconds');
+  var leave = document.getElementById('leave');
+  var popUpReplay = document.getElementById('replay');
+  var numberOfMoves = 0;
+  var lis = Array.prototype.slice.call(document.getElementsByClassName('card'));
+  var stars = Array.prototype.slice.call(document.getElementsByClassName('fa fa-star'));
   var box = document.getElementsByClassName("deck")[0];
-  console.log(box)
-  box.innerHtml = ""
-  lis = shuffle(lis)
-  console.log(lis[0])
-  console.log(lis[1])
-  box.appendChild(lis[4])
-  /*for (let i = 0; i < lis.length; i++){
+  box.innerHTML = "";
+  lis = shuffle(lis);
+  for (let i = 0; i < lis.length; i++){
+    lis[i].addEventListener("click",check);
     box.appendChild(lis[i])
-  }*/
-
-
-  };
-
-function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
-
-  while (currentIndex !== 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
   }
 
-  return array;
-}
+  function timerCounter(){
+    timer+=1;
+    displayedTime.innerHTML = timer;
+  }
 
+  setInterval(timerCounter, 1000);
 
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
-
-// Shuffle function from http://stackoverflow.com/a/2450976
-/*
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
+  function replay() {
+    openedList = [];
+    guessed = 0;
+    timer = 0;
+    movesNum.innerHTML = "0";
+    numberOfMoves = 0;
+    var lis2 = Array.prototype.slice.call(document.getElementsByClassName('card'));
+    lis2.forEach(function (el) {
+      el.className = "card"
+    });
+    box.innerHTML = "";
+    lis2 = shuffle(lis2);
+    for (let i = 0; i < lis2.length; i++){
+      lis2[i].addEventListener("click",check);
+      box.appendChild(lis2[i])
     }
+    stars.forEach(function (el) {
+      el.className = 'fa fa-star'
+    })
+  }
 
+  restart.addEventListener("click", replay);
+
+//popUp buttons
+  leave.addEventListener("click", function () {
+    popUp.style.display = 'none';
+  });
+
+  popUpReplay.addEventListener("click", function () {
+    popUp.style.display = 'none';
+    replay()
+  });
+
+  function check(){
+    if((this.className === 'card match') || (this.className === 'card open show')){
+    } else {
+      this.className = 'card open show';
+      openedList.push(this);
+      setTimeout(isMatch, 1000)
+    }
+  }
+
+  function isMatch() {
+    if (openedList.length === 2) {
+      if (openedList[0].firstElementChild.className === openedList[1].firstElementChild.className) {
+        openedList[0].className = "card match";
+        openedList[1].className = "card match";
+        guessed += 2;
+      } else {
+        openedList[0].className = "card";
+        openedList[1].className = "card";
+      }
+      openedList = [];
+    } else if (openedList.length > 2){
+      openedList.forEach(function (el) {
+        el.className = 'card'
+      })
+      openedList = [];
+    }
+    numberOfMoves += 1;
+    starHandler()
+    if (numberOfMoves%2 === 0) {
+      movesNum.innerHTML = numberOfMoves / 2;
+      isWin();
+    }
+  }
+
+  function isWin() {
+    if(guessed===16){
+      popUpmoves.innerHTML = movesNum.innerHTML;
+      gameSeconds.innerHTML = timer;
+      popUp.style.display = 'block';
+    }
+  }
+
+  function starHandler() {
+    console.log(stars)
+    if(numberOfMoves > 40){
+      stars[0].className = ''
+    } else if (numberOfMoves > 30) {
+      stars[1].className = ''
+    } else if (numberOfMoves > 18) {
+      stars[2].className = ''
+    }
+  }
+
+
+  function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
     return array;
-}
+  }
 
-*/
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
+};
