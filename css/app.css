@@ -131,3 +131,16 @@ h1 {
     border-radius:5px;
     box-shadow: 0px 0px 10px #000;
 }
+
+@media (max-width: 700px) {
+    .deck {
+        width: 330px;
+        min-height: 340px;
+        padding: 3%;
+    }
+
+    .deck .card {
+        height: 65px;
+        width: 65px;
+    }
+}
