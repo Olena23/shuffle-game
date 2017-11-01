@@ -1,22 +1,22 @@
 window.onload = function () {
   //uinitiating initial values
-  var openedList = [];
-  var guessed = 0;
-  var timer = 0;
-  var movesNum = document.getElementsByClassName('moves')[0];
-  var restart = document.getElementsByClassName('restart')[0];
-  var displayedTime = document.getElementById('displayedTime');
-  var starDysplayed = document.getElementById('starDysplayed');
-  var popUp = document.getElementsByClassName('b-popup')[0];
-  var popUpmoves = document.getElementById('popUpmoves');
-  var gameSeconds = document.getElementById('gameSeconds');
-  var leave = document.getElementById('leave');
-  var popUpReplay = document.getElementById('replay');
-  var numberOfMoves = 0;
-  var lis = Array.prototype.slice.call(document.getElementsByClassName('card'));
-  var stars = Array.prototype.slice.call(document.getElementsByClassName('fa fa-star'));
-  var starStatistics = 3;
-  var box = document.getElementsByClassName("deck")[0];
+  let openedList = [];
+  let guessed = 0;
+  let timer = 0;
+  let movesNum = document.getElementsByClassName('moves')[0];
+  let restart = document.getElementsByClassName('restart')[0];
+  let displayedTime = document.getElementById('displayedTime');
+  let starDysplayed = document.getElementById('starDysplayed');
+  let popUp = document.getElementsByClassName('b-popup')[0];
+  let popUpmoves = document.getElementById('popUpmoves');
+  let gameSeconds = document.getElementById('gameSeconds');
+  let leave = document.getElementById('leave');
+  let popUpReplay = document.getElementById('replay');
+  let numberOfMoves = 0;
+  let lis = Array.prototype.slice.call(document.getElementsByClassName('card'));
+  let stars = Array.prototype.slice.call(document.getElementsByClassName('fa fa-star'));
+  let starStatistics = 3;
+  let box = document.getElementsByClassName("deck")[0];
   box.innerHTML = "";
   //shuffle and re-add all cards to the page
   lis = shuffle(lis);
@@ -26,7 +26,7 @@ window.onload = function () {
   }
 
 //Timer handling
-  var refreshIntervalId = setInterval(function () {timerCounter()}, 1000);
+  let refreshIntervalId = setInterval(function () {timerCounter()}, 1000);
 
   function timerCounter(){
     timer+=1;
@@ -44,7 +44,7 @@ window.onload = function () {
     stopTimer();
     movesNum.innerHTML = "0";
     numberOfMoves = 0;
-    var lis2 = Array.prototype.slice.call(document.getElementsByClassName('card'));
+    let lis2 = Array.prototype.slice.call(document.getElementsByClassName('card'));
     lis2.forEach(function (el) {
       el.className = "card"
     });
