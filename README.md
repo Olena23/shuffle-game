@@ -6,3 +6,5 @@ However, beware to click more than two cards until you get the move result - you
 The project is part of the Udacity Nanodegree program and uses pre-defined board styles.
 
 You can view&try the app by visiting the link to the GitHub generated page provided in the project summary.
+
+To play on your computer, you need to download files into one folder and open "index.html" in your browser.
