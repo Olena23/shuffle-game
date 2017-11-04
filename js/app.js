@@ -1,8 +1,9 @@
 window.onload = function () {
-  //uinitiating initial values
+  //initiating initial values
   let openedList = [];
   let guessed = 0;
   let timer = 0;
+  let timeCtrl = 0;
   let movesNum = document.getElementsByClassName('moves')[0];
   let restart = document.getElementsByClassName('restart')[0];
   let displayedTime = document.getElementById('displayedTime');
@@ -26,7 +27,7 @@ window.onload = function () {
   }
 
 //Timer handling
-  let refreshIntervalId = setInterval(function () {timerCounter()}, 1000);
+
 
   function timerCounter(){
     timer+=1;
@@ -42,6 +43,8 @@ window.onload = function () {
     guessed = 0;
     timer = 0;
     stopTimer();
+    displayedTime.innerHTML = "0"
+    timeCtrl = 0;
     movesNum.innerHTML = "0";
     numberOfMoves = 0;
     let lis2 = Array.prototype.slice.call(document.getElementsByClassName('card'));
@@ -58,7 +61,7 @@ window.onload = function () {
       el.className = 'fa fa-star'
     })
     starStatistics = 3;
-    refreshIntervalId = setInterval(function () {timerCounter()}, 1000);
+
   }
 
   restart.addEventListener("click", replay);
@@ -75,6 +78,10 @@ window.onload = function () {
 
   //Checking id the guess was right
   function check(){
+    if (timeCtrl===0){
+      refreshIntervalId = setInterval(function () {timerCounter()}, 1000);
+      timeCtrl++
+    }
     if((this.className === 'card match') || (this.className === 'card open show')){
     } else {
       this.className = 'card open show';
